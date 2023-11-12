@@ -21,6 +21,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.aspect.LogExecutionTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -62,6 +63,7 @@ class OwnerController {
 		return ownerId == null ? new Owner() : this.owners.findById(ownerId);
 	}
 
+	@LogExecutionTime()
 	@GetMapping("/owners/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Owner owner = new Owner();
@@ -69,6 +71,7 @@ class OwnerController {
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
 
+	@LogExecutionTime()
 	@PostMapping("/owners/new")
 	public String processCreationForm(@Valid Owner owner, BindingResult result) {
 		if (result.hasErrors()) {
@@ -79,6 +82,7 @@ class OwnerController {
 		return "redirect:/owners/" + owner.getId();
 	}
 
+	@LogExecutionTime()
 	@GetMapping("/owners/find")
 	public String initFindForm() {
 		return "owners/findOwners";
